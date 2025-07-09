@@ -10,15 +10,17 @@ import (
 // Note that you must use structure tags in order for the utility to work properly.
 type Config interface{}
 
-func MustParseConfig() *Config {
+// MustParseConfig panics if the config wasn't loaded.
+// Usage: create a pointer to your config and input it here.
+func MustParseConfig(c *Config) *Config {
 	path := fetchConfigPath()
 	if path == "" {
 		panic("config path is empty")
 	}
-	return MustLoadByPath(path)
+	return MustLoadByPath(c, path)
 }
 
-func MustLoadByPath(path string) *Config {
+func MustLoadByPath(c *Config, path string) *Config {
 	if _, err := os.Stat(path); os.IsNotExist(err) {
 		panic("config file doesn't exist " + path)
 	}
@@ -26,7 +28,8 @@ func MustLoadByPath(path string) *Config {
 	if err := cleanenv.ReadConfig(path, &res); err != nil {
 		panic(err)
 	}
-	return &res
+	c = &res
+	return c
 }
 
 // fetchConfigPath parses the config path from flags or env and returns it.
