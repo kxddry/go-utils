@@ -7,7 +7,8 @@ import (
 )
 
 // MustParseConfig panics if the config wasn't loaded.
-// Usage: create your config and input it here.
+// Usage: create a pointer to your config and input it here.
+// Example: MustParseConfig(&cfg)
 func MustParseConfig(cfg any) {
 	path := fetchConfigPath()
 	if path == "" {
