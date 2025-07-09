@@ -6,7 +6,8 @@ import (
 	"os"
 )
 
-// Config resembles any struct you can possibly use for your YAML files.
+// Config resembles any struct you can possibly use for your files.
+// Note that you must use structure tags in order for the utility to work properly.
 type Config interface{}
 
 func MustParseConfig() *Config {
